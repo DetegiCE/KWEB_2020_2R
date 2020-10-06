@@ -1,1 +1,0 @@
-print("Linking VSCode with GitHub")
