@@ -4,14 +4,25 @@ const http = require('http');
 const hostname = '127.0.0.1';
 const port = 3000;
 
+const getData = async () => {
+    try {
+        return await axios.get('https://api.github.com/repos/nodejs/node');
+    } catch (e) {
+        console.log(e);
+    }
+}
 
 const server = http.createServer(async (req, res) => {
-    const data = await axios({
-        method: 'get',
-        url: 'https://api.github.com/repos/nodejs/node',
-        responseType: 'json'
-    });
-    console.log(data);
+    try {
+        const nodeData = await getData();
+        if(nodeData.data.message) {
+            console.log('data ok');
+        }
+    } catch (e) {
+        res.statusCode = 500;
+        console.log('Internal error issued.');
+    }
+    
 });
 
 server.listen(port, hostname, () => {
